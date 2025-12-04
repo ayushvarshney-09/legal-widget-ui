@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Legal Search Test</title>
+
+  <!-- Widget JavaScript bundle -->
+  <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_US"></script>
+</head>
+<body>
+  <h2>Legal Search</h2>
+  <p>Type a question and press Enter:</p>
+
+  <!-- Element that opens the widget on click -->
+  <input
+    placeholder="Search here"
+    id="searchWidgetTrigger"
+    style="width: 400px; padding: 10px; font-size: 16px;"
+  />
+
+  <!-- Search widget element -->
+  <gen-search-widget
+    configId="85f9cdac-3295-4016-b90b-cb3b3836e51e"
+    triggerId="searchWidgetTrigger">
+  </gen-search-widget>
+</body>
+</html>
