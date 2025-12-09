@@ -114,9 +114,7 @@
       transition: background 0.15s ease, color 0.15s ease;
     }
 
-    .tab-icon {
-      font-size: 15px;
-    }
+    .tab-icon { font-size: 15px; }
 
     .tab.active {
       background: var(--cp-accent);
@@ -132,14 +130,8 @@
       overflow: hidden;
     }
 
-    .panel {
-      display: none;
-      background: #14102f;
-    }
-
-    .panel.active {
-      display: block;
-    }
+    .panel { display: none; background: #14102f; }
+    .panel.active { display: block; }
 
     .panel-header {
       padding: 10px 14px;
@@ -158,13 +150,8 @@
       gap: 6px;
     }
 
-    .panel-icon {
-      font-size: 15px;
-    }
-
-    .panel-title {
-      font-weight: 500;
-    }
+    .panel-icon { font-size: 15px; }
+    .panel-title { font-weight: 500; }
 
     .badge {
       font-size: 11px;
@@ -178,24 +165,11 @@
       gap: 4px;
     }
 
-    .badge-icon {
-      font-size: 12px;
-    }
+    .badge-icon { font-size: 12px; }
 
     .panel-body {
       padding: 10px 14px 14px;
       background: #14102f;
-    }
-
-    .search-input {
-      width: 100%;
-      margin-top: 8px;
-      padding: 9px 11px;
-      border-radius: 10px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: #0b081e;
-      color: var(--cp-text);
-      font-size: 13px;
     }
 
     .frame {
@@ -247,7 +221,7 @@
           <div class="panel-header">
             <div class="panel-left">
               <span class="panel-icon">📄</span>
-              <span class="panel-title">Vertex AI Search · </span>
+              <span class="panel-title">Vertex AI Search · Contract PDFs</span>
             </div>
             <div class="badge">
               <span class="badge-icon">🔍</span>
@@ -255,15 +229,10 @@
             </div>
           </div>
           <div class="panel-body">
+            <!-- No triggerId, widget renders its own search bar -->
             <gen-search-widget
-              configId="85f9cdac-3295-4016-b90b-cb3b3836e51e"
-              triggerId="searchWidgetTrigger">
+              configId="85f9cdac-3295-4016-b90b-cb3b3836e51e">
             </gen-search-widget>
-
-            <input
-              id="searchWidgetTrigger"
-              class="search-input"
-              placeholder="Search across your contracts (e.g. termination, liability cap)" />
           </div>
         </section>
 
@@ -272,7 +241,7 @@
           <div class="panel-header">
             <div class="panel-left">
               <span class="panel-icon">💬</span>
-              <span class="panel-title">Legal research agent ·</span>
+              <span class="panel-title">Legal research agent · Cloud Run</span>
             </div>
             <div class="badge">
               <span class="badge-icon">⚙️</span>
