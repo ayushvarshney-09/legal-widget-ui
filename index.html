@@ -1,30 +1,311 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Legal Search Test</title>
-
-  <!-- Vertex AI Search widget bundle -->
+  <title>ContractPodAi · Legal Workspace</title>
   <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_US"></script>
+  <style>
+    :root {
+      --cp-bg: #190f3a;
+      --cp-bg-dark: #120b2a;
+      --cp-accent: #f5b623;
+      --cp-text: #ffffff;
+      --cp-muted: #c9c6dd;
+      --cp-border: #2a214d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--cp-text);
+      background: radial-gradient(circle at top left, #25154f, var(--cp-bg-dark));
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 1240px;
+      margin: 24px;
+      background: linear-gradient(145deg, #221547, #150c30);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      background: var(--cp-bg);
+      border-bottom: 1px solid rgba(0,0,0,0.5);
+    }
+
+    .logo-text {
+      font-size: 22px;
+      font-weight: 650;
+      letter-spacing: 0.03em;
+    }
+
+    .logo-text span.ai {
+      color: var(--cp-accent);
+    }
+
+    .header-sub {
+      font-size: 12px;
+      color: var(--cp-muted);
+      margin-top: 2px;
+    }
+
+    .tag {
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--cp-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tag-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #19c27f;
+      box-shadow: 0 0 6px rgba(25,194,127,0.9);
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      padding: 14px 18px 18px;
+      gap: 10px;
+    }
+
+    .tabs {
+      display: inline-flex;
+      background: #100827;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 3px;
+      align-self: flex-start;
+    }
+
+    .tab {
+      border: none;
+      background: none;
+      color: var(--cp-muted);
+      font-size: 13px;
+      padding: 7px 16px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .tab-icon {
+      font-size: 15px;
+    }
+
+    .tab.active {
+      background: var(--cp-accent);
+      color: #1a103b;
+      font-weight: 600;
+    }
+
+    .panels {
+      margin-top: 8px;
+      border-radius: 14px;
+      border: 1px solid var(--cp-border);
+      background: #14102f;
+      overflow: hidden;
+    }
+
+    .panel {
+      display: none;
+      background: #14102f;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    .panel-header {
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 12px;
+      color: var(--cp-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #190f3a;
+    }
+
+    .panel-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .panel-icon {
+      font-size: 15px;
+    }
+
+    .panel-title {
+      font-weight: 500;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--cp-accent);
+      background: rgba(0,0,0,0.25);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-icon {
+      font-size: 12px;
+    }
+
+    .panel-body {
+      padding: 10px 14px 14px;
+      background: #14102f;
+    }
+
+    .search-input {
+      width: 100%;
+      margin-top: 8px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: #0b081e;
+      color: var(--cp-text);
+      font-size: 13px;
+    }
+
+    .frame {
+      width: 100%;
+      height: 540px;
+      border: none;
+      background: #050612;
+    }
+
+    @media (max-width: 720px) {
+      .app { margin: 10px; }
+      .frame { height: 460px; }
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h2>Legal Search</h2>
-  <p>Type a question and press Enter:</p>
+  <div class="app">
+    <header class="header">
+      <div>
+        <div class="logo-text">ContractPod<span class="ai">Ai</span></div>
+        <div class="header-sub">Unified workspace for document search and legal agent</div>
+      </div>
+      <div class="tag">
+        <span class="tag-dot"></span>
+        Legal tools
+      </div>
+    </header>
 
-  <!-- Element that opens the widget on click -->
-  <input
-    placeholder="Search here"
-    id="searchWidgetTrigger"
-    style="width: 400px; padding: 10px; font-size: 16px;"
-  />
+    <main class="main">
+      <div class="tabs">
+        <button class="tab active" onclick="showTab('search')">
+          <span class="tab-icon">📚</span>
+          <span>PDF Search</span>
+        </button>
+        <button class="tab" onclick="showTab('agent')">
+          <span class="tab-icon">🤖</span>
+          <span>Agent</span>
+        </button>
+      </div>
 
-  <!-- Search widget element -->
-  <gen-search-widget
-    configId="85f9cdac-3295-4016-b90b-cb3b3836e51e"
-    triggerId="searchWidgetTrigger">
-  </gen-search-widget>
+      <div class="panels">
+        <!-- PDF Search -->
+        <section id="panel-search" class="panel active">
+          <div class="panel-header">
+            <div class="panel-left">
+              <span class="panel-icon">📄</span>
+              <span class="panel-title">Vertex AI Search · </span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">🔍</span>
+              Search
+            </div>
+          </div>
+          <div class="panel-body">
+            <gen-search-widget
+              configId="85f9cdac-3295-4016-b90b-cb3b3836e51e"
+              triggerId="searchWidgetTrigger">
+            </gen-search-widget>
 
+            <input
+              id="searchWidgetTrigger"
+              class="search-input"
+              placeholder="Search across your contracts (e.g. termination, liability cap)" />
+          </div>
+        </section>
+
+        <!-- Agent -->
+        <section id="panel-agent" class="panel">
+          <div class="panel-header">
+            <div class="panel-left">
+              <span class="panel-icon">💬</span>
+              <span class="panel-title">Legal research agent ·</span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">⚙️</span>
+              Chat
+            </div>
+          </div>
+          <iframe
+            class="frame"
+            src="https://legal-agent-292094059513.us-central1.run.app/dev-ui/">
+          </iframe>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function showTab(name) {
+      const tabs = document.querySelectorAll('.tab');
+      const searchPanel = document.getElementById('panel-search');
+      const agentPanel = document.getElementById('panel-agent');
+
+      tabs.forEach(t => t.classList.remove('active'));
+      searchPanel.classList.remove('active');
+      agentPanel.classList.remove('active');
+
+      if (name === 'search') {
+        tabs[0].classList.add('active');
+        searchPanel.classList.add('active');
+      } else {
+        tabs[1].classList.add('active');
+        agentPanel.classList.add('active');
+      }
+    }
+  </script>
 </body>
 </html>
-
-
