@@ -143,12 +143,13 @@
       padding: 12px 16px;
       border-radius: 999px;
       border: 1px solid rgba(0,0,0,0.12);
-      background: #ffffff;
-      color: #171717;
-      caret-color: #171717;
+      background: #ffffff !important;
+      color: #171717 !important;
+      caret-color: #171717 !important;
       font-size: 14px;
       outline: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+      -webkit-text-fill-color: #171717 !important;
     }
 
     .frame {
@@ -186,7 +187,11 @@
         </button>
         <button class="tab" onclick="showTab('agent')">
           <span class="tab-icon">🤖</span>
-          <span>Agent</span>
+          <span>Web Search</span>
+        </button>
+        <button class="tab" onclick="showTab('multiagent')">
+          <span class="tab-icon">🧠</span>
+          <span>Legal Multi Agent</span>
         </button>
       </div>
 
@@ -196,7 +201,7 @@
           <div class="panel-header">
             <div class="panel-left">
               <span class="panel-icon">📄</span>
-              <span class="panel-title">Vertex AI Search · Contracts</span>
+              <span class="panel-title">Vertex AI Search </span>
             </div>
             <div class="badge">
               <span class="badge-icon">🔍</span>
@@ -222,7 +227,7 @@
           <div class="panel-header">
             <div class="panel-left">
               <span class="panel-icon">💬</span>
-              <span class="panel-title">Legal research agent · Cloud Run</span>
+              <span class="panel-title">Legal Research agent</span>
             </div>
             <div class="badge">
               <span class="badge-icon">⚙️</span>
@@ -234,6 +239,24 @@
             src="https://legal-agent-292094059513.us-central1.run.app/dev-ui/">
           </iframe>
         </section>
+
+        <!-- Legal Multi Agent -->
+        <section id="panel-multiagent" class="panel">
+          <div class="panel-header">
+            <div class="panel-left">
+              <span class="panel-icon">🧠</span>
+              <span class="panel-title">Legal Multi Agent </span>
+            </div>
+            <div class="badge">
+              <span class="badge-icon">✨</span>
+              Multi-Agent
+            </div>
+          </div>
+          <iframe
+            class="frame"
+            src="https://legal-multiagent-292094059513.us-central1.run.app/dev-ui/">
+          </iframe>
+        </section>
       </div>
     </main>
   </div>
@@ -243,17 +266,22 @@
       const tabs = document.querySelectorAll('.tab');
       const searchPanel = document.getElementById('panel-search');
       const agentPanel = document.getElementById('panel-agent');
+      const multiagentPanel = document.getElementById('panel-multiagent');
 
       tabs.forEach(t => t.classList.remove('active'));
       searchPanel.classList.remove('active');
       agentPanel.classList.remove('active');
+      multiagentPanel.classList.remove('active');
 
       if (name === 'search') {
         tabs[0].classList.add('active');
         searchPanel.classList.add('active');
-      } else {
+      } else if (name === 'agent') {
         tabs[1].classList.add('active');
         agentPanel.classList.add('active');
+      } else if (name === 'multiagent') {
+        tabs[2].classList.add('active');
+        multiagentPanel.classList.add('active');
       }
     }
   </script>
