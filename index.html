@@ -167,20 +167,37 @@
     }
 
     /* Force text visibility in Google widget's search inputs */
+    gen-search-widget *,
     gen-search-widget input,
     gen-search-widget input[type="text"],
     gen-search-widget input[type="search"],
     gen-search-widget textarea {
       color: #171717 !important;
       -webkit-text-fill-color: #171717 !important;
-      background: #ffffff !important;
       caret-color: #171717 !important;
       opacity: 1 !important;
+    }
+
+    gen-search-widget input,
+    gen-search-widget input[type="text"],
+    gen-search-widget input[type="search"] {
+      background: #ffffff !important;
     }
 
     gen-search-widget input::placeholder {
       color: #999999 !important;
       opacity: 0.7 !important;
+    }
+
+    /* Additional universal overrides for deeply nested inputs */
+    gen-search-widget div input,
+    gen-search-widget form input,
+    gen-search-widget [role="searchbox"],
+    gen-search-widget [type="text"],
+    gen-search-widget [type="search"] {
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000 !important;
+      background-color: #ffffff !important;
     }
 
     .frame {
