@@ -150,6 +150,37 @@
       outline: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.18);
       -webkit-text-fill-color: #171717 !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+      position: relative;
+      z-index: 10;
+    }
+
+    .search-input:focus,
+    .search-input:active,
+    input#searchWidgetTrigger {
+      background: #ffffff !important;
+      color: #171717 !important;
+      -webkit-text-fill-color: #171717 !important;
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    /* Force text visibility in Google widget's search inputs */
+    gen-search-widget input,
+    gen-search-widget input[type="text"],
+    gen-search-widget input[type="search"],
+    gen-search-widget textarea {
+      color: #171717 !important;
+      -webkit-text-fill-color: #171717 !important;
+      background: #ffffff !important;
+      caret-color: #171717 !important;
+      opacity: 1 !important;
+    }
+
+    gen-search-widget input::placeholder {
+      color: #999999 !important;
+      opacity: 0.7 !important;
     }
 
     .frame {
