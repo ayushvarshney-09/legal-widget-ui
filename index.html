@@ -2,334 +2,258 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ContractPodAi · Legal Workspace</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legal Workspace - ContractPodAi</title>
+  
+  <!-- Widget JavaScript bundle -->
   <script src="https://cloud.google.com/ai/gen-app-builder/client?hl=en_US"></script>
+  
   <style>
-    :root {
-      --cp-bg: #190f3a;
-      --cp-bg-dark: #120b2a;
-      --cp-accent: #f5b623;
-      --cp-text: #ffffff;
-      --cp-muted: #c9c6dd;
-      --cp-border: #2a214d;
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
-
-    * { box-sizing: border-box; }
 
     body {
-      margin: 0;
-      min-height: 100vh;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: var(--cp-text);
-      background: radial-gradient(circle at top left, #25154f, var(--cp-bg-dark));
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
       display: flex;
+      align-items: center;
       justify-content: center;
-      align-items: stretch;
+      padding: 20px;
     }
 
-    .app {
+    .container {
       width: 100%;
-      max-width: 1240px;
-      margin: 24px;
-      background: linear-gradient(145deg, #221547, #150c30);
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.55);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      max-width: 1400px;
     }
 
     .header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 22px;
-      background: var(--cp-bg);
-      border-bottom: 1px solid rgba(0,0,0,0.5);
+      text-align: center;
+      margin-bottom: 32px;
     }
 
-    .logo-text { font-size: 22px; font-weight: 650; letter-spacing: 0.03em; }
-    .logo-text span.ai { color: var(--cp-accent); }
-    .header-sub { font-size: 12px; color: var(--cp-muted); margin-top: 2px; }
-
-    .tag {
-      padding: 4px 10px;
-      border-radius: 999px;
-      font-size: 11px;
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--cp-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tag-dot {
-      width: 7px; height: 7px; border-radius: 50%;
-      background: #19c27f; box-shadow: 0 0 6px rgba(25,194,127,0.9);
+    h1 {
+      color: white;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .main { display: flex; flex-direction: column; padding: 14px 18px 18px; gap: 10px; }
+    .subtitle {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 16px;
+    }
 
     .tabs {
-      display: inline-flex;
-      background: #100827;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 3px;
-      align-self: flex-start;
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 6px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
     }
 
     .tab {
+      flex: 1;
+      padding: 12px 20px;
       border: none;
-      background: none;
-      color: var(--cp-muted);
-      font-size: 13px;
-      padding: 7px 16px;
-      border-radius: 999px;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 8px;
       cursor: pointer;
+      transition: all 0.3s ease;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: background 0.15s ease, color 0.15s ease;
+      justify-content: center;
+      gap: 8px;
     }
-    .tab-icon { font-size: 15px; }
-    .tab.active { background: var(--cp-accent); color: #1a103b; font-weight: 600; }
 
-    .panels {
-      margin-top: 8px;
-      border-radius: 14px;
-      border: 1px solid var(--cp-border);
-      background: #14102f;
+    .tab:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+    }
+
+    .tab.active {
+      background: white;
+      color: #667eea;
+    }
+
+    .tab-icon {
+      font-size: 18px;
+    }
+
+    .content {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       overflow: hidden;
     }
 
-    .panel { display: none; background: #14102f; }
-    .panel.active { display: block; }
-
-    .panel-header {
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      font-size: 12px;
-      color: var(--cp-muted);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #190f3a;
+    .panel {
+      display: none;
+      padding: 32px;
     }
 
-    .panel-left { display: flex; align-items: center; gap: 6px; }
-    .panel-icon { font-size: 15px; }
-    .panel-title { font-weight: 500; }
-
-    .badge {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.12);
-      color: var(--cp-accent);
-      background: rgba(0,0,0,0.25);
-      display: flex;
-      align-items: center;
-      gap: 4px;
+    .panel.active {
+      display: block;
     }
-    .badge-icon { font-size: 12px; }
 
-    .panel-body { padding: 10px 14px 14px; background: #14102f; }
+    .panel-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
 
-    /* Your visible search bar */
-    .search-input {
-      width: 100%;
-      margin-top: 8px;
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,0,0,0.12);
-      background: #ffffff !important;
-      color: #171717 !important;
-      caret-color: #171717 !important;
+    .panel-description {
+      color: #666;
+      margin-bottom: 24px;
       font-size: 14px;
-      outline: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.18);
-      -webkit-text-fill-color: #171717 !important;
-      opacity: 1 !important;
-      pointer-events: auto !important;
-      position: relative;
-      z-index: 10;
     }
 
-    .search-input:focus,
-    .search-input:active,
-    input#searchWidgetTrigger {
-      background: #ffffff !important;
-      color: #171717 !important;
-      -webkit-text-fill-color: #171717 !important;
-      opacity: 1 !important;
-      pointer-events: auto !important;
-    }
-
-    /* Force text visibility in Google widget's search inputs */
-    gen-search-widget *,
-    gen-search-widget input,
-    gen-search-widget input[type="text"],
-    gen-search-widget input[type="search"],
-    gen-search-widget textarea {
-      color: #171717 !important;
-      -webkit-text-fill-color: #171717 !important;
-      caret-color: #171717 !important;
-      opacity: 1 !important;
-    }
-
-    gen-search-widget input,
-    gen-search-widget input[type="text"],
-    gen-search-widget input[type="search"] {
-      background: #ffffff !important;
-    }
-
-    gen-search-widget input::placeholder {
-      color: #999999 !important;
-      opacity: 0.7 !important;
-    }
-
-    /* Additional universal overrides for deeply nested inputs */
-    gen-search-widget div input,
-    gen-search-widget form input,
-    gen-search-widget [role="searchbox"],
-    gen-search-widget [type="text"],
-    gen-search-widget [type="search"] {
-      color: #000000 !important;
-      -webkit-text-fill-color: #000000 !important;
-      background-color: #ffffff !important;
-    }
-
-    .frame {
+    #searchWidgetTrigger {
       width: 100%;
-      height: 540px;
-      border: none;
-      background: #050612;
+      padding: 16px 24px;
+      font-size: 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 50px;
+      background: white;
+      outline: none;
+      transition: all 0.3s ease;
     }
 
-    @media (max-width: 720px) {
-      .app { margin: 10px; }
-      .frame { height: 460px; }
-      .header { flex-direction: column; align-items: flex-start; gap: 6px; }
+    #searchWidgetTrigger:hover {
+      border-color: #667eea;
+    }
+
+    #searchWidgetTrigger:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+    }
+
+    #searchWidgetTrigger::placeholder {
+      color: #999;
+    }
+
+    .iframe-container {
+      width: 100%;
+      height: 600px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f5f5f5;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .iframe-container {
+        height: 500px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="app">
-    <header class="header">
-      <div>
-        <div class="logo-text">ContractPod<span class="ai">Ai</span></div>
-        <div class="header-sub">Unified workspace for document search and legal agent</div>
+  <div class="container">
+    <div class="header">
+      <h1>ContractPodAi Legal Space</h1>
+      <p class="subtitle">Unified platform for document search and AI agents</p>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showTab('search')">
+        <span class="tab-icon">📚</span>
+        <span>PDF Search</span>
+      </button>
+      <button class="tab" onclick="showTab('agent')">
+        <span class="tab-icon">🤖</span>
+        <span>Web Search</span>
+      </button>
+      <button class="tab" onclick="showTab('multiagent')">
+        <span class="tab-icon">🧠</span>
+        <span>Legal Multi Agent</span>
+      </button>
+    </div>
+
+    <div class="content">
+      <!-- PDF Search Panel -->
+      <div id="panel-search" class="panel active">
+        <h2 class="panel-title">Vertex AI Search</h2>
+        <p class="panel-description">Search across your contracts and legal documents</p>
+        
+        <!-- Search widget element -->
+        <gen-search-widget
+          configId="85f9cdac-3295-4016-b90b-cb3b3836e51e"
+          triggerId="searchWidgetTrigger">
+        </gen-search-widget>
+
+        <input 
+          placeholder="Search across your contracts (e.g. termination, liability cap)" 
+          id="searchWidgetTrigger" />
       </div>
-      <div class="tag">
-        <span class="tag-dot"></span>
-        Legal tools
-      </div>
-    </header>
 
-    <main class="main">
-      <div class="tabs">
-        <button class="tab active" onclick="showTab('search')">
-          <span class="tab-icon">📚</span>
-          <span>PDF Search</span>
-        </button>
-        <button class="tab" onclick="showTab('agent')">
-          <span class="tab-icon">🤖</span>
-          <span>Web Search</span>
-        </button>
-        <button class="tab" onclick="showTab('multiagent')">
-          <span class="tab-icon">🧠</span>
-          <span>Legal Multi Agent</span>
-        </button>
+      <!-- Web Search Agent Panel -->
+      <div id="panel-agent" class="panel">
+        <h2 class="panel-title">Legal Research Agent</h2>
+        <p class="panel-description">AI-powered legal research and analysis</p>
+        
+        <div class="iframe-container">
+          <iframe src="https://legal-agent-292094059513.us-central1.run.app/dev-ui/"></iframe>
+        </div>
       </div>
 
-      <div class="panels">
-        <!-- PDF Search -->
-        <section id="panel-search" class="panel active">
-          <div class="panel-header">
-            <div class="panel-left">
-              <span class="panel-icon">📄</span>
-              <span class="panel-title">Vertex AI Search </span>
-            </div>
-            <div class="badge">
-              <span class="badge-icon">🔍</span>
-              Search
-            </div>
-          </div>
-          <div class="panel-body">
-            <!-- Widget attaches to this input via triggerId -->
-            <gen-search-widget
-              configId="85f9cdac-3295-4016-b90b-cb3b3836e51e"
-              triggerId="searchWidgetTrigger">
-            </gen-search-widget>
-
-            <input
-              id="searchWidgetTrigger"
-              class="search-input"
-              placeholder="Search across your contracts (e.g. termination, liability cap)" />
-          </div>
-        </section>
-
-        <!-- Agent -->
-        <section id="panel-agent" class="panel">
-          <div class="panel-header">
-            <div class="panel-left">
-              <span class="panel-icon">💬</span>
-              <span class="panel-title">Legal Research agent</span>
-            </div>
-            <div class="badge">
-              <span class="badge-icon">⚙️</span>
-              Chat
-            </div>
-          </div>
-          <iframe
-            class="frame"
-            src="https://legal-agent-292094059513.us-central1.run.app/dev-ui/">
-          </iframe>
-        </section>
-
-        <!-- Legal Multi Agent -->
-        <section id="panel-multiagent" class="panel">
-          <div class="panel-header">
-            <div class="panel-left">
-              <span class="panel-icon">🧠</span>
-              <span class="panel-title">Legal Multi Agent </span>
-            </div>
-            <div class="badge">
-              <span class="badge-icon">✨</span>
-              Multi-Agent
-            </div>
-          </div>
-          <iframe
-            class="frame"
-            src="https://legal-multiagent-292094059513.us-central1.run.app/dev-ui/">
-          </iframe>
-        </section>
+      <!-- Legal Multi Agent Panel -->
+      <div id="panel-multiagent" class="panel">
+        <h2 class="panel-title">Legal Multi Agent</h2>
+        <p class="panel-description">Advanced multi-agent legal workflow automation</p>
+        
+        <div class="iframe-container">
+          <iframe src="https://legal-multiagent-292094059513.us-central1.run.app/dev-ui/"></iframe>
+        </div>
       </div>
-    </main>
+    </div>
   </div>
 
   <script>
-    function showTab(name) {
+    function showTab(tabName) {
+      // Remove active class from all tabs and panels
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(panel => panel.classList.remove('active'));
+
+      // Add active class to selected tab
       const tabs = document.querySelectorAll('.tab');
-      const searchPanel = document.getElementById('panel-search');
-      const agentPanel = document.getElementById('panel-agent');
-      const multiagentPanel = document.getElementById('panel-multiagent');
-
-      tabs.forEach(t => t.classList.remove('active'));
-      searchPanel.classList.remove('active');
-      agentPanel.classList.remove('active');
-      multiagentPanel.classList.remove('active');
-
-      if (name === 'search') {
+      if (tabName === 'search') {
         tabs[0].classList.add('active');
-        searchPanel.classList.add('active');
-      } else if (name === 'agent') {
+        document.getElementById('panel-search').classList.add('active');
+      } else if (tabName === 'agent') {
         tabs[1].classList.add('active');
-        agentPanel.classList.add('active');
-      } else if (name === 'multiagent') {
+        document.getElementById('panel-agent').classList.add('active');
+      } else if (tabName === 'multiagent') {
         tabs[2].classList.add('active');
-        multiagentPanel.classList.add('active');
+        document.getElementById('panel-multiagent').classList.add('active');
       }
     }
   </script>
